@@ -9,7 +9,7 @@ from back_end.modules.index import index_blu
 db = SQLAlchemy()
 
 
-def setup_log(config_name):
+def setup_log():
     # 设置日志的记录等级
     logging.basicConfig(level=Config.LOG_LEVEL)  # 调试debug级
     # 创建日志记录器，指明日志保存的路径、每个日志文件的最大大小、保存的日志文件个数上限
