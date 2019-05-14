@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_script import Manager
 
 
 class Config(object):
@@ -18,6 +19,9 @@ app.config.from_object(Config)
 # 初始化数据库
 db = SQLAlchemy(app)
 
+# 集成flask-script
+manager = Manager(app)
+
 
 @app.route('/')
 def index():
@@ -25,4 +29,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    manager.run()
