@@ -1,8 +1,9 @@
-from back_end import app, db
+from back_end import create_app, db
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-
+# 创建app
+app = create_app()
 # 集成flask-script
 manager = Manager(app)
 # 将 app 与 db 关联
