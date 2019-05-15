@@ -1194,7 +1194,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFqu6ckGTHI75E="
 							},
-							"name": "total_win",
+							"name": "total",
 							"length": 0
 						}
 					]
