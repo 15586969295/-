@@ -1,5 +1,5 @@
 import logging
-from constants import *
+from back_end.constants import *
 
 
 class Config(object):

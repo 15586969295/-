@@ -8,12 +8,19 @@ class BaseModel(object):
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)  # 记录的更新时间
 
 
+tb_player_season = db.Table('rb_player_season',
+                         db.Column('player_id', db.Integer, db.ForeignKey('tb_player.id')),
+                         db.Column('season_id', db.Integer, db.ForeignKey('tb_season.id')),
+                         )
+
+
 class Player(BaseModel, db.Model):
     """选手"""
     __tablename__ = "tb_player"
 
     id = db.Column(db.Integer, primary_key=True)  # 选手编号
     nick_name = db.Column(db.String(32), unique=True, nullable=False)  # 选手昵称
+    season = db.relationship('Season', secondary=tb_player_season, backref='tb_player', lazy='dynamic')
 
 
 class Season(BaseModel, db.Model):
@@ -38,4 +45,3 @@ class Game(BaseModel, db.Model):
     fourth = db.Column(db.String(20), nullable=False)  # 第四名选手
     fifth = db.Column(db.String(20), nullable=False)  # 第五名选手
     sixth = db.Column(db.String(20), nullable=False)  # 第六名选手
-
