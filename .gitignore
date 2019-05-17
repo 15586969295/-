@@ -2,3 +2,4 @@
 *.py[cod]
 logs/log*
 back_end/constants.py
+migrations
