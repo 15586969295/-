@@ -4,6 +4,8 @@ from config import Config
 import logging
 from logging.handlers import RotatingFileHandler
 from back_end.modules.index import index_blu
+from back_end.modules.game import game_blu
+from back_end.modules.leaderboard import leaderboard_blu
 
 # 初始化数据库
 db = SQLAlchemy()
@@ -23,11 +25,13 @@ def setup_log():
 
 
 def create_app():
-    app = Flask(__name__,template_folder="../front_end/templates")
+    app = Flask(__name__, template_folder="../front_end/templates")
     # 加载配置
     app.config.from_object(Config)
     # 通过app初始化
     db.init_app(app)
     # 注册蓝图
     app.register_blueprint(index_blu)
+    app.register_blueprint(game_blu)
+    app.register_blueprint(leaderboard_blu)
     return app
