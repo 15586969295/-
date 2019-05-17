@@ -3,9 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from config import Config
 import logging
 from logging.handlers import RotatingFileHandler
-from back_end.modules.index import index_blu
-from back_end.modules.game import game_blu
-from back_end.modules.leaderboard import leaderboard_blu
+
 
 # 初始化数据库
 db = SQLAlchemy()
@@ -31,6 +29,9 @@ def create_app():
     # 通过app初始化
     db.init_app(app)
     # 注册蓝图
+    from back_end.modules.index import index_blu
+    from back_end.modules.game import game_blu
+    from back_end.modules.leaderboard import leaderboard_blu
     app.register_blueprint(index_blu)
     app.register_blueprint(game_blu)
     app.register_blueprint(leaderboard_blu)
