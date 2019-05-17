@@ -8,10 +8,10 @@ class BaseModel(object):
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)  # 记录的更新时间
 
 
-tb_player_season = db.Table('rb_player_season',
-                         db.Column('player_id', db.Integer, db.ForeignKey('tb_player.id')),
-                         db.Column('season_id', db.Integer, db.ForeignKey('tb_season.id')),
-                         )
+tb_player_season = db.Table('tb_player_season',
+                            db.Column('player_id', db.Integer, db.ForeignKey('tb_player.id'), primary_key=True),
+                            db.Column('season_id', db.Integer, db.ForeignKey('tb_season.id'), primary_key=True),
+                            )
 
 
 class Player(BaseModel, db.Model):
@@ -20,7 +20,16 @@ class Player(BaseModel, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)  # 选手编号
     nick_name = db.Column(db.String(32), unique=True, nullable=False)  # 选手昵称
-    season = db.relationship('Season', secondary=tb_player_season, backref='tb_player', lazy='dynamic')
+    season = db.relationship('Season', secondary=tb_player_season, backref='player', lazy='dynamic')
+
+    def to_dict(self):
+        resp_dict = {
+            'id': self.id,
+            'nick_name': self.nick_name,
+            'season_detials': self.season.all()
+        }
+
+        return resp_dict
 
 
 class Season(BaseModel, db.Model):
@@ -31,6 +40,16 @@ class Season(BaseModel, db.Model):
     score = db.Column(db.Integer, nullable=False)  # 得分
     win = db.Column(db.Integer, nullable=False)  # 胜场
     total = db.Column(db.Integer, nullable=False)  # 当前总场次
+    players = db.relationship('Player', secondary=tb_player_season, backref='season', lazy='dynamic')
+    games = db.relationship('Game', lazy='dynamic')  # 当前赛季的所有对局
+
+    def to_dict(self):
+        resp_dict = {
+            'id': self.id,
+            'games': self.games.all()
+        }
+
+        return resp_dict
 
 
 class Game(BaseModel, db.Model):
@@ -45,3 +64,18 @@ class Game(BaseModel, db.Model):
     fourth = db.Column(db.String(20), nullable=False)  # 第四名选手
     fifth = db.Column(db.String(20), nullable=False)  # 第五名选手
     sixth = db.Column(db.String(20), nullable=False)  # 第六名选手
+
+    def to_dict(self):
+        resp_dict = {
+            'id': self.id,
+            'season_id': self.season_id,
+            'first': self.first,
+            'second': self.second,
+            'third': self.third,
+            'fourth': self.fourth,
+            'fifth': self.fifth,
+            'sixth': self.sixth,
+            'time': self.create_time.strftime("%Y-%m-%d %H:%M:%S")
+        }
+
+        return resp_dict
