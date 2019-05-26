@@ -26,7 +26,7 @@ class Player(BaseModel, db.Model):
         resp_dict = {
             'id': self.id,
             'nick_name': self.nick_name,
-            'season_detials': self.season.all()
+            # 'season_details': self.season.all()
         }
 
         return resp_dict
