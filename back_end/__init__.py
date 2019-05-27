@@ -23,7 +23,7 @@ def setup_log():
 
 
 def create_app():
-    app = Flask(__name__, template_folder="../front_end/templates")
+    app = Flask(__name__, template_folder="../front_end/templates", static_folder='../front_end/static')
     # 加载配置
     app.config.from_object(Config)
     # 通过app初始化
